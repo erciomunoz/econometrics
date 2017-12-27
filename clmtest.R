@@ -4,6 +4,7 @@ clmtest = function(x)
 # For a reference see:
 # Baltagi (2013), Econometric Analysis of Panel Data, 5th edition, pp. 72.
 # Written by Ercio Munoz, Graduate Center CUNY
+# December 27, 2017
 
   if (x$args$model == "within") {
     x = update(x, model = "random")
