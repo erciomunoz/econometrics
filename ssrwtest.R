@@ -5,7 +5,7 @@ ssrwtest = function(x,
 # For a reference see:
 # Wooldridge (2003) "Cluster-sample methods in applied econometrics", AER PP 93:133-138
 # Written by Ercio Munoz, Graduate Center CUNY
-# December 27, 2017
+# January 2, 2018
   
   if (x$args$model != "within") {
     x = update(x, model = "within")
@@ -17,19 +17,17 @@ ssrwtest = function(x,
   pdim = pdim(x)
   N = pdim$nT$n
   T = pdim$nT$T
-  balanced = pdim$balanced # true or false
+#  balanced = pdim$balanced # true or false
 
   ### START calculation of parts of test statistic ##
   if (effect=="individual") {
     fx_level = summary(fixef(x, type = "level", effect="individual"))[,c("Estimate","Std. Error")]
     ols      = lm(fx_level[,1]~1,weights=1/fx_level[,2]^2)
-    res      = as.matrix(resid(ols))
-    SSR      = t(res)%*%res # sum of squared residuals
+    SSR      = crossprod(resid(ols))
   } else {
     fx_level = summary(fixef(x, type = "level", effect="time"))[,c("Estimate","Std. Error")]
     ols      = lm(fx_level[,1]~1,weights=1/fx_level[,2]^2)
-    res      = as.matrix(resid(ols))
-    SSR      = t(res)%*%res # sum of squared residuals 
+    SSR      = crossprod(resid(ols)) #t(res)%*%res # sum of squared residuals 
   }
   ### END calculation of parts of test statistic ##
   
